@@ -1,0 +1,75 @@
+/* Global body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+}
+
+/* Container styling */
+.container {
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    margin: 20px;
+    padding-bottom: 50px; /* Space for footer */
+}
+
+/* Headings styling */
+h1 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 2rem;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+/* Canvas styling */
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Button styling */
+#toggleChart {
+    margin: 20px 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#toggleChart:hover {
+    background-color: #0056b3;
+}
+
+/* Footer styling */
+.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: right;
+    font-size: 0.9rem;
+    color: #777;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.footer p {
+    margin: 0;
+    padding-right: 10px;
+}
