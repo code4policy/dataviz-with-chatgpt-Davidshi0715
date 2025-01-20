@@ -178,7 +178,7 @@ toggleButton.addEventListener("click", () => {
 
 
 // Render the charts with titles
-createChart(top10Data, "#top-10-chart", 1200, 600, "Key Issues Highlighted by 311 Calls: Enforcement, Vehicles,Sanitation, and Infrastructure", "Top Reasons for 311 Calls by Category");
+createChart(top10Data, "#top-10-chart", 1200, 600, "Key Issues Highlighted by 311 Calls: Enforcement, Vehicles, Sanitation, and Infrastructure", "Top 10 Reasons for 311 Calls by Category");
 createChart(data, "#all-reasons-chart", 1200, 800, "Key Issues Highlighted by 311 Calls: Enforcement, Vehicles, Sanitation, and Infrastructure", "All Reasons for 311 Calls by Category");
 
 
