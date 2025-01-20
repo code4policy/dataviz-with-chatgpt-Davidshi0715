@@ -61,14 +61,16 @@ svg {
 }
 
 .chart-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     fill: #333;
+    margin-bottom: 50px;
 }
 
 .chart-subtitle {
-    font-size: 14px;
+    font-size: 18px;
     fill: #666;
+    margin-top: 50px;
 }
 
 /* Page Background */
