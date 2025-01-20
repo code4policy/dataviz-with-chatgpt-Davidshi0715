@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>311 Calls - Top Reasons</title>
+    <title>Reasons Data Visualization</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Insights into Boston's 311 Calls</h1>
-        <h2>Top 10 Reasons Residents Reach Out for Help</h2>
-        <canvas id="chart"></canvas>
-        <button id="toggleChart">Show All Reasons</button>
-        <div class="footer">
-            <p>Data Source: <em>Boston 311 Service Data</em></p>
-            <p>Chart created by David Shi, DPI 691MB: Programming and Data for Policymakers</p>
-        </div>
+    <div class="chart-container">
+        <div id="top-10-chart"></div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <button id="toggle-button" class="blue-button">Show Other Reasons</button>
+
+    <div class="chart-container hidden" id="all-reasons-container">
+        <div id="all-reasons-chart"></div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
