@@ -1,75 +1,126 @@
-/* Global body styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+/* Center Charts */
+.chart-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f4f4f9;
-}
-
-/* Container styling */
-.container {
-    text-align: center;
-    width: 80%;
-    max-width: 800px;
-    position: relative;
-    margin: 20px;
-    padding-bottom: 50px; /* Space for footer */
-}
-
-/* Headings styling */
-h1 {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 2rem;
-}
-
-h2 {
-    margin-bottom: 20px;
-    color: #555;
-    font-size: 1.2rem;
-    font-weight: 400;
-}
-
-/* Canvas styling */
-canvas {
-    max-width: 100%;
-    height: auto;
-}
-
-/* Button styling */
-#toggleChart {
     margin: 20px 0;
+    width: 100%; /* Make the container take the full width */
+    max-width: 1200px; /* Set a maximum width */
+    top: -50px;
+}
+
+#all-reasons-container {
+    position: relative; /* Ensures the element can be moved relative to its original position */
+    top: -130px;        /* Moves the element 100px upwards */
+}
+
+svg {
+    display: block;
+    margin: 20px auto;
+}
+
+/* Axes Styles */
+.x-axis path,
+.x-axis line,
+.y-axis path,
+.y-axis line {
+    stroke: #ccc;
+}
+
+.x-axis text,
+.y-axis text {
+    font-size: 12px;
+    fill: #333;
+}
+
+.x-axis text {
+    transform: translateY(5px);
+}
+
+.y-axis text {
+    transform: translateX(-5px);
+    font-weight: bold;
+}
+
+/* Bar Styles */
+.bar {
+    fill: dodgerblue; /* Light blue */
+    transition: fill 0.3s, opacity 0.3s;
+}
+
+.bar:hover {
+    fill: #00008b; /* Deep blue */
+    opacity: 0.9;
+}
+
+/* Chart Margins */
+.axis-label {
+    font-size: 14px;
+    font-weight: bold;
+    fill: #333;
+}
+
+.chart-title {
+    font-size: 18px;
+    font-weight: bold;
+    fill: #333;
+}
+
+.chart-subtitle {
+    font-size: 14px;
+    fill: #666;
+}
+
+/* Page Background */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.x-axis-label {
+    text-anchor: middle;
+    transform: translate(0, 30px);
+}
+
+.y-axis-label {
+    text-anchor: middle;
+    transform: translate(-60px, 0) rotate(-90deg);
+}
+
+.chart-citation {
+    font-size: 12px;
+    fill: #666;
+}
+
+
+
+.blue-button {
+    display: inline-block;
     padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #007bff;
+    font-size: 16px;
     color: white;
+    background-color: #007bff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;       /* Allows precise positioning */
+    top: -100px;               /* Move the button upwards */
+    text-align: center;
 }
 
-#toggleChart:hover {
+.blue-button:hover {
     background-color: #0056b3;
 }
 
-/* Footer styling */
-.footer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    text-align: right;
-    font-size: 0.9rem;
-    color: #777;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.footer p {
-    margin: 0;
-    padding-right: 10px;
+.hidden {
+    display: none;
 }
