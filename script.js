@@ -1,5 +1,5 @@
-// Full dataset of reasons and counts
-const fullData = [
+// Data
+const data = [
     { reason: "Abandoned Bicycle", count: 1318 },
     { reason: "Administrative & General Requests", count: 2025 },
     { reason: "Air Pollution Control", count: 35 },
@@ -43,88 +43,143 @@ const fullData = [
     { reason: "Traffic Management & Engineering", count: 751 },
     { reason: "Trees", count: 10390 },
     { reason: "Valet", count: 7 },
-    { reason: "Weights and Measures", count: 52 }
+    { reason: "Weights and Measures", count: 52 },
 ];
 
-// Sort full dataset by count in descending order
-const sortedFullData = [...fullData].sort((a, b) => b.count - a.count);
+// Top 10 Reasons
+const top10Data = data.sort((a, b) => b.count - a.count).slice(0, 10);
 
-// Extract top 10 data
-const top10Data = sortedFullData.slice(0, 10);
+// Create a chart
+function createChart(data, selector, width = 1200, height = 600, title = "", subtitle = "") {
+    const margin = { top: 80, right: 50, bottom: 120, left: 250 }; // Increased bottom margin for citation
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
 
-let isShowingTop10 = true;
-let chart;
+    const svg = d3
+        .select(selector)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height + 100) // Increase the height value to make the chart higher
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Function to create the chart
-function createChart(data) {
-    const labels = data.map(item => item.reason);
-    const counts = data.map(item => item.count);
+    // Add title
+    svg.append("text")
+        .attr("x", chartWidth / 2)
+        .attr("y", -margin.top / 2)
+        .attr("text-anchor", "middle")
+        .attr("class", "chart-title")
+        .text(title);
 
-    if (chart) {
-        chart.destroy();
-    }
+    // Add subtitle
+    svg.append("text")
+        .attr("x", chartWidth / 2)
+        .attr("y", -margin.top / 2 + 20)
+        .attr("text-anchor", "middle")
+        .attr("class", "chart-subtitle")
+        .text(subtitle);
 
-    const ctx = document.getElementById('chart').getContext('2d');
-    chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Number of Calls',
-                data: counts,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderWidth: 0,
-                borderRadius: 10
-            }]
-        },
-        options: {
-            responsive: true,
-            indexAxis: 'y',
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Number of Calls',
-                        font: {
-                            size: 16,
-                            family: 'Arial, sans-serif',
-                            weight: 'bold'
-                        }
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Reasons',
-                        font: {
-                            size: 16,
-                            family: 'Arial, sans-serif',
-                            weight: 'bold'
-                        }
-                    }
-                }
-            }
-        }
-    });
+    const x = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, (d) => d.count)])
+        .nice()
+        .range([0, chartWidth]);
+
+    const y = d3
+        .scaleBand()
+        .domain(data.map((d) => d.reason))
+        .range([0, chartHeight])
+        .padding(0.2);
+
+    svg.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0,${chartHeight})`)
+        .call(d3.axisBottom(x));
+
+    svg.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(y));
+
+    // Tooltip setup
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background-color", "#fff")
+        .style("border", "1px solid #ccc")
+        .style("border-radius", "4px")
+        .style("padding", "8px")
+        .style("font-size", "12px")
+        .style("color", "#333")
+        .style("box-shadow", "0px 2px 4px rgba(0, 0, 0, 0.2)")
+        .style("pointer-events", "none")
+        .style("display", "none");
+
+    // Draw bars with tooltip interactions
+    svg.selectAll(".bar")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", 0)
+        .attr("y", (d) => y(d.reason))
+        .attr("width", (d) => x(d.count))
+        .attr("height", y.bandwidth())
+        .on("mouseover", function (event, d) {
+            tooltip
+                .style("display", "block")
+                .html(`<strong>${d.reason}</strong>: ${d.count}`)
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY - 20 + "px");
+            d3.select(this).style("opacity", 0.8); // Highlight the bar
+        })
+        .on("mousemove", function (event) {
+            tooltip
+                .style("left", event.pageX + 10 + "px")
+                .style("top", event.pageY - 20 + "px");
+        })
+        .on("mouseout", function () {
+            tooltip.style("display", "none");
+            d3.select(this).style("opacity", 1); // Reset bar opacity
+        });
+
+    // Add citation
+    svg.append("text")
+    .attr("x", chartWidth)
+    .attr("y", chartHeight + margin.bottom - 20) // Adjust the value to move the text upward
+    .attr("text-anchor", "end")
+    .attr("class", "chart-citation")
+    .text("Data Source: Boston 311 Service Data");
+
+    svg.append("text")
+        .attr("x", chartWidth)
+        .attr("y", chartHeight + margin.bottom)
+        .attr("text-anchor", "end")
+        .attr("class", "chart-citation")
+        .text("Created by David Shi, DPI 691MB: Programming and Data for Policymakers");
 }
 
-// Initialize with top 10 data
-createChart(top10Data);
+// Toggle button
+const toggleButton = document.getElementById("toggle-button");
+const allReasonsContainer = document.getElementById("all-reasons-container");
 
-// Toggle chart data on button click
-document.getElementById('toggleChart').addEventListener('click', () => {
-    if (isShowingTop10) {
-        createChart(sortedFullData);
-        document.getElementById('toggleChart').textContent = 'Show Top 10 Reasons';
+toggleButton.addEventListener("click", () => {
+    if (allReasonsContainer.classList.contains("hidden")) {
+        allReasonsContainer.classList.remove("hidden");
+        toggleButton.textContent = "Hide Other Reasons";
     } else {
-        createChart(top10Data);
-        document.getElementById('toggleChart').textContent = 'Show All Reasons';
+        allReasonsContainer.classList.add("hidden");
+        toggleButton.textContent = "Show Other Reasons";
     }
-    isShowingTop10 = !isShowingTop10;
 });
+
+
+
+
+
+// Render the charts with titles
+createChart(top10Data, "#top-10-chart", 1200, 600, "Key Issues Highlighted by 311 Calls: Enforcement, Vehicles,Sanitation, and Infrastructure", "Top Reasons for 311 Calls by Category");
+createChart(data, "#all-reasons-chart", 1200, 800, "Key Issues Highlighted by 311 Calls: Enforcement, Vehicles, Sanitation, and Infrastructure", "All Reasons for 311 Calls by Category");
+
+
+
